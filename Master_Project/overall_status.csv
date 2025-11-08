@@ -1,0 +1,42 @@
+cancer_type,action_required,expected,dbgap_required,pending_sra_downloading,pending_sra_to_fastq,pending_fastq_to_bam,pending,fastq_done,bam_done
+:---,:---,---:,---:,---:,---:,---:,---:,---:,---:
+Bulk_CellTypes/AnusAnorectum,RUN sample_list_to_fastq_workflow.py (missing sample_list.with_status.txt),None,None,None,None,None,None,None,None
+Bulk_CellTypes/Bones+Joints,RUN sample_list_to_fastq_workflow.py (missing sample_list.with_status.txt),None,None,None,None,None,None,None,None
+Bulk_CellTypes/Gum+MouthOther,OPTIONAL_BAM_ALIGNMENT,19,0,0,0,0,0,19,0
+Bulk_CellTypes/Mouth,OPTIONAL_BAM_ALIGNMENT,19,0,0,0,0,0,19,0
+Bulk_CellTypes/Pancreas,OPTIONAL_BAM_ALIGNMENT,9,0,0,0,0,0,9,0
+Bulk_CellTypes/SkinMelanoma,RUN sample_list_to_fastq_workflow.py (missing sample_list.with_status.txt),None,None,None,None,None,None,None,None
+Controls/AnusAnorectum,RUN sample_list_to_fastq_workflow.py (missing sample_list.with_status.txt),None,None,None,None,None,None,None,None
+Controls/Bones+Joints,RUN sample_list_to_fastq_workflow.py (missing sample_list.with_status.txt),None,None,None,None,None,None,None,None
+Controls/Gallbladder,OPTIONAL_BAM_ALIGNMENT,76,0,0,0,0,0,76,0
+Controls/Gum+MouthOther,NONE,60,7,0,0,0,0,53,0
+Controls/Larynx,OPTIONAL_BAM_ALIGNMENT,13,0,0,0,0,0,13,0
+Controls/MouthFloor,OPTIONAL_BAM_ALIGNMENT,2,0,0,0,0,0,2,0
+Controls/RenalPelvis,CHECK_MANUALLY,0,0,0,0,0,0,0,0
+Controls/Salivary,WAIT,45,0,1,0,0,0,44,0
+Controls/Tongue,OPTIONAL_BAM_ALIGNMENT,13,0,0,0,0,0,13,0
+Controls/delete,OPTIONAL_BAM_ALIGNMENT,31,0,0,0,0,0,31,0
+Controls/delete,NONE,69,5,0,0,0,0,64,0
+Controls/delete,RUN sample_list_to_fastq_workflow.py (missing sample_list.with_status.txt),None,None,None,None,None,None,None,None
+Premalignant/Esophagus,WAIT,213,0,1,5,0,0,207,0
+Premalignant/Gum+MouthOther,WAIT,103,0,1,4,0,0,98,0
+Tumors/AnusAnorectum,WAIT,347,0,4,178,0,62,0,103
+Tumors/Bones+Joints,WAIT,30,0,2,0,0,0,28,0
+Tumors/Esophagus,WAIT,25,4,0,0,2,0,19,0
+Tumors/Gallbladder,WAIT,114,0,0,0,114,0,0,0
+Tumors/Gum+MouthOther,WAIT,394,20,0,0,121,0,253,0
+Tumors/HRposHER2posBreast,NONE,88,80,0,0,0,0,8,0
+Tumors/Larynx,OPTIONAL_BAM_ALIGNMENT,17,0,0,0,0,0,17,0
+Tumors/LungLargeCell,NONE,26,14,0,0,0,0,12,0
+Tumors/MeningiomaBrain+CNS,WAIT,279,0,4,219,0,0,56,0
+Tumors/Mesothelioma,OPTIONAL_BAM_ALIGNMENT,12,0,0,0,0,0,12,0
+Tumors/MouthFloor,OPTIONAL_BAM_ALIGNMENT,11,0,0,0,0,0,11,0
+Tumors/Oropharyngeal,WAIT,243,210,0,0,33,0,0,0
+Tumors/Pancreas,WAIT,696,11,1,0,0,0,86,598
+Tumors/RenalPelvis,WAIT,68,11,0,53,0,0,4,0
+Tumors/Salivary,NONE,195,9,0,0,0,0,186,0
+Tumors/SkinMelanoma,RUN sample_list_to_fastq_workflow.py (missing sample_list.with_status.txt),None,None,None,None,None,None,None,None
+Tumors/SmallCellLung,NONE,103,63,0,0,0,0,40,0
+Tumors/SmallIntestine,WAIT,81,0,79,0,0,0,2,0
+Tumors/Tongue,WAIT,55,0,0,0,55,0,0,0
+Tumors/Vagina,NONE,12,2,0,0,0,0,10,0

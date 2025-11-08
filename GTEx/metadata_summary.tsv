@@ -1,0 +1,31 @@
+tissue_name	acronym	num_samples	status	submission_id	workflow_id
+Brain	BRAI	3737	archives_downloaded
+Skin	SKIN	2292	archives_downloaded
+Esophagus	ESOP	1831	archives_downloaded
+Blood_Vessel	BLOO	1622	archives_downloaded
+Adipose_Tissue	ADIP	1480	archives_downloaded
+Heart	HEAR	1058	missing_yet	b2e5dbf5-93e4-47a8-a274-2d4f6a71198d	73ea9f95-516c-4421-a7ee-d74b763243e5
+Colon	COLO	1023	archives_downloaded
+Muscle	MUSC	966	downloaded_and_unpacked	1c2a75e7-a5a2-4680-b3bd-f060f4831b65	456ee5ce-501c-40f3-bc0e-91cb9725bab5
+Thyroid	THCA	794	downloaded_and_unpacked	47cc062e-6634-4cd8-81e0-6bdeae8f338a	56638e2d-ce09-44f4-b10a-6db254aa44e2
+Nerve	NERV	768	downloaded_and_unpacked	1e72230d-9a68-4891-8f66-137baf1d019d	dd540933-9851-400c-ad09-ca5a522c2569
+Lung	LUNG	748	downloaded_and_unpacked	a921b8a3-0410-4fa1-b4b5-dd11b4bcaa8d	9ec21334-9f3b-4ee6-8849-a54fee7ceb8f
+Breast	BRCA	568	downloaded_and_unpacked	c8acc02e-cdae-438a-913a-21ea7df430c8	ff0c5b6a-b78f-4cba-9a7b-8672fb43ade2
+Stomach	STOM	552	archives_downloaded
+Testis	TGCT	474	downloaded_and_unpacked	ae26d636-b63e-42f7-862f-1b0472cc4e88	eeae1a92-0ddf-49ac-9b09-3a3c3a57cb44
+Pancreas	PANC	446	downloaded_and_unpacked	f943964b-ae8a-43c7-acf0-b5ee17508953	dfd2ded9-5d0d-4ce8-8a8f-be7039d3b71e
+Pituitary	PIT	347	downloaded_and_unpacked	dc9afd28-f131-4ed0-9f52-1307a7008a58	6868bb8c-a133-4800-89df-287f980791ff
+Prostate	PRAD	330	downloaded_and_unpacked	79da9765-4ae6-4a3c-ac62-4ca7d82b1072	16eee857-4b8e-41c6-9d01-1bd3b9fcf60c
+Adrenal_Gland	ADRE	329	archives_downloaded
+Liver	LIVE	327	downloaded_and_unpacked	d2129189-5888-446e-956c-80832cc00c96	6551f5cc-3a0a-499d-8788-843c2f3b58aa
+Spleen	SPLE	303	downloaded_and_unpacked	edcc8bd4-2b6b-4b71-83c4-1d86fe755b93	b1718b18-4ec1-4717-b9ad-bdb0f8ec1bf1
+Small_Intestine	SMAL	240	downloaded_and_unpacked	d0912327-ebad-41ed-be4c-61bb30b6015b	e7a3444b-a7ff-4792-ae8e-31f4d04e74c4
+Ovary	OVAR	220	downloaded_and_unpacked	75254546-3c97-4dcc-8e18-e7e39eed177f	957b2ef7-6290-4ca6-b04e-e86850b016c4
+Salivary_Gland	SALI	208	downloaded_and_unpacked	4c384d6d-c87f-402d-86b1-a87057e6cc3a	a0769244-5067-4b1c-b220-ad12c9471e56
+Bone_Marrow	BONE	203	downloaded_and_unpacked	a6773fb0-a65b-4a7e-a583-7406e8c2b9c4	e012a663-9e78-4040-a99b-6ad42071621c
+Vagina	VAGI	187	downloaded_and_unpacked	33b87433-60a1-4817-9758-021154214819	11c1c521-8bfe-4e9e-9e7f-3be5519b147e
+Uterus	UTER	177	downloaded_and_unpacked	85748cf5-774e-4d5f-b461-2d84cb2c414e	623d0312-f9c7-4d8d-8c51-2b4d99e488c7
+Kidney	KIDN	137	downloaded_and_unpacked	1be3d722-d536-49a1-b8a2-d2b073d96ea8	6615d9ef-ea6f-421b-8029-3a2dd6aa3850
+Bladder	BLAD	84	downloaded_and_unpacked	6e7ecab8-6543-4d72-a3dd-28916e038426	48175d80-5b34-4248-bbc9-b68b875e8b19
+Cervix_Uteri	CERV	55	downloaded_and_unpacked	ac27dfdc-821e-4cbe-a6f1-efa094018b42	6a940334-3cea-4a79-959a-82cabcb257cc
+Fallopian_Tube	FALLO	30	downloaded_and_unpacked	e9bbeb22-3508-47e5-93a5-5cbfcd34087c	2aafb41b-6a02-44d4-bb71-dedeb6cc834b
