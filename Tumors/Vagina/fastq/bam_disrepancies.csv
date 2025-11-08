@@ -1,0 +1,12 @@
+sample_id,in_bam_dir,in_sample_list,mismatch
+SAMN02838099,True,True,False
+SAMN20392134,True,True,False
+SAMN36452469,False,True,True
+SAMN36452470,False,True,True
+SAMN36452471,False,True,True
+SAMN36452472,False,True,True
+SAMN36452473,False,True,True
+SAMN36452474,False,True,True
+SAMN36452475,False,True,True
+SAMN36452476,False,True,True
+SAMN36452477,False,True,True
