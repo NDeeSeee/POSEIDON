@@ -11,7 +11,7 @@ SAMN19647246,SAMN,True,True,first_column,False
 SAMN19647247,SAMN,True,True,first_column,False
 SAMN19647248,SAMN,True,True,first_column,False
 SAMN19647249,SAMN,True,True,first_column,False
-SAMN32353265,SAMN,True,False,none,True
+SAMN32353265,SAMN,True,True,first_column,False
 SAMN32353266,SAMN,True,True,first_column,False
 SAMN32353267,SAMN,True,True,first_column,False
 SAMN32353268,SAMN,True,True,first_column,False
@@ -29,7 +29,6 @@ SAMN40200162,SAMN,True,True,first_column,False
 SAMN40200163,SAMN,True,True,first_column,False
 SAMN40200164,SAMN,True,True,first_column,False
 SAMN40200165,SAMN,True,True,first_column,False
-SRR123,SRR,True,False,none,True
 SRR14772115,SRR,True,False,none,True
 SRR14772116,SRR,True,False,none,True
 SRR14772117,SRR,True,False,none,True

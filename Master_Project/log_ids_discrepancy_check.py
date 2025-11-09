@@ -5,8 +5,8 @@ import sys
 import csv
 from typing import Dict, Iterable, List, Optional, Set, Tuple
 
-ID_PATTERN = re.compile(r"\b(SRR\d+|ERR\d+|DRR\d+|SAMN\d+|SAMEA\d+|SAMD\d+|GSM\d+)\b")
-FASTQ_ID_PATTERN = re.compile(r"\b(SRR\d+|ERR\d+|DRR\d+)\b")
+ID_PATTERN = re.compile(r"\b(SRR\d{6,}|ERR\d{6,}|DRR\d{6,}|SAMN\d{6,}|SAMEA\d{6,}|SAMD\d{6,}|GSM\d{6,})\b")
+FASTQ_ID_PATTERN = re.compile(r"\b(SRR\d{6,}|ERR\d{6,}|DRR\d{6,})\b")
 
 LOG_FILE_SUFFIXES = (".log", ".out", ".err", ".txt")
 STAR_LOG_GLOBS = ("_Log.out", "_Log.progress.out")
@@ -43,6 +43,9 @@ def extract_ids_from_files(files: Iterable[str]) -> Set[str]:
         try:
             with open(path, "r", encoding="utf-8", errors="ignore") as fh:
                 for line in fh:
+                    # Skip comment lines to avoid matching example IDs in documentation
+                    if line.lstrip().startswith('#'):
+                        continue
                     for m in ID_PATTERN.findall(line):
                         found.add(m)
         except Exception:
