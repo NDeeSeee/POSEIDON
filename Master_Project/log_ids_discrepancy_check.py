@@ -6,7 +6,7 @@ import csv
 from typing import Dict, Iterable, List, Optional, Set, Tuple
 
 ID_PATTERN = re.compile(r"\b(SRR\d{6,}|ERR\d{6,}|DRR\d{6,}|SAMN\d{6,}|SAMEA\d{6,}|SAMD\d{6,}|GSM\d{6,})\b")
-FASTQ_ID_PATTERN = re.compile(r"\b(SRR\d{6,}|ERR\d{6,}|DRR\d{6,})\b")
+FASTQ_ID_PATTERN = re.compile(r"\b(SRR\d{6,}|ERR\d{6,}|DRR\d{6,})")
 
 LOG_FILE_SUFFIXES = (".log", ".out", ".err", ".txt")
 STAR_LOG_GLOBS = ("_Log.out", "_Log.progress.out")

@@ -173,9 +173,9 @@ def enrich_cohort(cohort_dir: str) -> Optional[str]:
                 r2_list.append(r2_candidate)
         out_rows.append((sid, ",".join(run_ids), ",".join(r1_list), ",".join(r2_list) if r2_list else "NA"))
 
-    # Write to logs/discrepancy_2.csv
-    os.makedirs(os.path.join(cohort_dir, "logs"), exist_ok=True)
-    out_path = os.path.join(cohort_dir, "logs", "discrepancy_2.csv")
+    # Write to disrepancy_2_mapped.csv in same directory as input
+    in_dir = os.path.dirname(in_path) if os.path.dirname(in_path) else cohort_dir
+    out_path = os.path.join(in_dir, "disrepancy_2_mapped.csv")
     with open(out_path, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(["sample_id", "srr_ids", "r1_list", "r2_list"])
