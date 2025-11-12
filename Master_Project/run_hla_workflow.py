@@ -72,7 +72,7 @@ def submit_chr6_extraction(directory):
         sample_name = os.path.splitext(bam_name)[0]
 
         # Build the actual command to run
-        cmd = f"conda activate bio-cli && python3 /data/salomonis2/software/AltAnalyze/import_scripts/hla.py --i {bam} --o {fastqs_dir}"
+        cmd = f"conda activate bio-cli && python3 /data/salomonis2/software/AltAnalyze/import_scripts/hla.py --i {bam} --o {fastqs_dir} && fd --exact-depth 1 --size -50b '{sample_name}_2.fastq.gz' {fastqs_dir} -x rm"
 
         # Submit directly to bsub with proper arguments
         try:
@@ -145,14 +145,24 @@ def submit_optitype_jobs(directory):
         # Create sample processed directory
         os.makedirs(sample_processed_dir, exist_ok=True)
 
+        # Detect if this is paired-end or single-end
+        # Check if _2.fastq.gz exists AND has meaningful content (> 50 bytes)
+        is_paired_end = os.path.exists(file2) and os.path.getsize(file2) > 50
+
         # Create temporary wrapper script for this job
-        file2_base = os.path.basename(file2)
         wrapper_script = os.path.join(logs_dir, f"optitype_{sample_name}.sh")
         with open(wrapper_script, 'w') as f:
+            if is_paired_end:
+                file2_base = os.path.basename(file2)
+                optitype_cmd = f"/usr/local/bin/OptiType/OptiTypePipeline.py -i fastqs/{file1_base} fastqs/{file2_base} --rna -v -o processed/{sample_name}"
+            else:
+                # Single-end mode - only pass _1.fastq.gz
+                optitype_cmd = f"/usr/local/bin/OptiType/OptiTypePipeline.py -i fastqs/{file1_base} --rna -v -o processed/{sample_name}"
+
             f.write(f"""#!/bin/bash
                     module load singularity/3.7.0
                     cd {directory}
-                    singularity exec -W /mnt -B {directory}:/mnt {sif_path} /bin/bash -c "cd /mnt && /usr/local/bin/OptiType/OptiTypePipeline.py -i fastqs/{file1_base} fastqs/{file2_base} --rna -v -o processed/{sample_name}"
+                    singularity exec -W /mnt -B {directory}:/mnt {sif_path} /bin/bash -c "cd /mnt && {optitype_cmd}"
                     """)
         os.chmod(wrapper_script, 0o755)
 
