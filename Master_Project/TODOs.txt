@@ -1,0 +1,21 @@
+    TODO: !!!Figure out why disrepancies2 script produces false SRRs like "SRR123" added into each disrepancies2.csv
+
+    TODO: Also we neeed to create a metadata file explaining those disrepancies and sample_lists
+    TODO: Add those missing samples from LOGS to sample_lists
+    TODO: Make sure separately that those logs also processed STAR alignmet logs to define missing samples - if not, process that
+
+    TODO: Update list of tree of files (tree_snapshot)
+    TODO: Update overall status (plus remove unrelated)
+
+    TODO: Think of best (fastest) way to VALIDATE .sra and .fastq.gz - check out
+    TODO: Compare (!) 2 scripts of fastq-workflow - run the best (fastest) as needed: if default is working - update that with pgiz / zstd + fasterq-dump + parralelization where possible
+    TODO: Run bam-workflow as needed
+
+    TODO: Reverse back all the sample_list.txt files into one mega-meta-data file
+    TODO: Have a short script of making sure that all those BIO SAMPLES are indeed match SRRs (or other IDs) and that single-end truly so, multiple samples all inclued
+    TODO: Manually verify each Tumor and other subsets
+
+
+
+LIST OF CANCER'S I'M WORKING WITH:
+    TODO: /data/salomonis-archive/FASTQs/NCI-R01/POSEIDON/Tumors/Larynx

@@ -1,0 +1,110 @@
+Here’s a clean, ready-to-use spec you can hand to an LLM (or keep for yourself) — concise, unambiguous, and anti-bloat.
+
+Goal
+
+For each cohort directory, read logs/discrepancy_2.csv, identify samples present in logs but missing from sample_list.txt, and add them to a new merged sample_list.txt. The original sample_list.txt must be moved to incomplete_sample_list_2.txt.
+
+Inputs & Locations
+	•	Cohort dir: a directory that contains:
+	•	sample_list.txt (existing; 3-column TSV)
+	•	logs/discrepancy_2.csv (per-cohort report with missing samples/SRRs)
+	•	FASTQ files (SRR…_1.fastq.gz and optionally SRR…_2.fastq.gz)
+
+sample_list.txt format (strict)
+
+Tab-separated, 3 columns per line:
+	1.	sample_id (e.g., SAMN…, SAME…, or other stable ID)
+	2.	R1 list: comma-separated FASTQs like SRR123_1.fastq.gz,SRR456_1.fastq.gz
+	3.	R2 list: comma-separated FASTQs like SRR123_2.fastq.gz,SRR456_2.fastq.gz
+	•	Leave this NA for single-ended samples (e.g., "NA" after the tab).
+	•	For mixed SRRs (some paired, some single), include only existing R2 files; NA R2 is allowed.
+
+Parsing note: SRR IDs are recovered by stripping suffixes (_1|_2).fastq.gz from columns 2 and 3.
+
+discrepancy_2.csv expectations
+	•	CSV with a header row.
+	•	Must include at least:
+	•	sample_id (string)
+	•	Either (a) srr_ids as comma-separated list, or
+	•	(b) explicit r1_list and r2_list columns with comma-separated filenames.
+	•	If both srr_ids and r1/r2 exist, prefer r1/r2.
+
+What the script must do
+	1.	Discover cohort dirs (either from CLI args or current dir).
+	2.	For each cohort dir:
+	•	Load existing sample_list.txt into a map: sample_id -> {srr_ids, r1_set, r2_set}.
+	•	Parse logs/discrepancy_2.csv to get candidate missing entries.
+	3.	Determine missing samples:
+	•	A sample is “missing” if its sample_id is absent from current sample_list.txt.
+	•	If sample_id already exists but lacks some SRRs, treat as merge (augment existing).
+	4.	Build rows for additions/merges:
+	•	Derive R1 filenames as SRR_1.fastq.gz for each SRR.
+	•	Derive R2 filenames as SRR_2.fastq.gz only if the file exists in the cohort dir or r2_list says it should exist.
+	•	Single-end SRRs: include only R1 in column 2; do not invent R2 entries.
+	•	Multi-SRR samples: join R1 filenames with commas; join R2 filenames with commas (may be empty).
+	5.	Write outputs atomically:
+	•	Move the original sample_list.txt → incomplete_sample_list_2.txt.
+	•	Create a new sample_list.txt containing:
+	•	All original rows (unaltered),
+	•	Plus added rows for missing samples,
+	•	Plus updated rows for samples receiving additional SRRs (de-duplicated).
+	•	Sort rows by sample_id (stable, lexicographic).
+	6.	Log a summary to logs/update_sample_list_2.summary.txt:
+	•	Counts of added samples, merged samples, and unchanged samples.
+	•	Any rows skipped due to malformed CSV or missing sample_id.
+
+Rules & edge cases
+	•	Do not drop or reorder existing SRRs for a sample; only add missing ones.
+	•	Normalization:
+	•	Strip whitespace; accept commas with/without spaces.
+	•	Accept filename variants like SRR123.fastq_1.gz or SRR123_1.fastq.gz by normalizing SRR as the token before (_1|_2).fastq.gz. Output using the canonical form SRR123_1.fastq.gz / SRR123_2.fastq.gz.
+	•	Single vs paired:
+	•	If no R2 exists for an SRR (filesystem and/or CSV say none) → treat as single-end for that SRR.
+	•	Mixed SRRs within a sample are allowed; R2 column may have fewer entries than R1.
+	•	Idempotent: Running the script multiple times must not create duplicates or change order beyond the defined sort.
+	•	Validation (non-fatal warnings):
+	•	Warn if CSV row has sample_id but no SRRs and no R1/R2 filenames.
+	•	Warn if an R2 filename is listed but file is missing on disk (do not fail; still include per CSV intent).
+
+CLI (suggested)
+
+update_sample_list_from_discrepancy2.py \
+  --root /path/to/root_or_cohort \
+  [--cohort PATTERN ...]    # optional: glob(s) to match subdirs
+  [--dry-run]               # report only, do not modify files
+
+Pseudocode (tight)
+
+for cohort in discover_cohorts(root, patterns):
+    sl = read_sample_list(cohort/"sample_list.txt")   # dict[sample_id] -> {r1:set, r2:set}
+    miss = parse_discrepancy2(cohort/"logs/discrepancy_2.csv")  # list of records
+
+    changes = {}
+    for rec in miss:
+        sid = rec.sample_id
+        srrs = rec.srrs or infer_from_r1r2(rec)
+        want_r1 = { f"{s}_1.fastq.gz" for s in srrs }
+        want_r2 = decide_r2s(cohort, rec, srrs)       # existing files or rec.r2_list
+
+        if sid not in sl: sl[sid] = {r1:set(), r2:set()}
+        before = (len(sl[sid].r1), len(sl[sid].r2))
+        sl[sid].r1 |= want_r1
+        sl[sid].r2 |= want_r2
+        after = (len(sl[sid].r1), len(sl[sid].r2))
+        if after != before: changes[sid] = ("added" if before==(0,0) else "merged")
+
+    # write atomically
+    move sample_list.txt -> incomplete_sample_list_2.txt
+    write new sample_list.txt from sl (sorted by sample_id),
+      with col2 = ",".join(sorted(r1)),
+           col3 = ",".join(sorted(r2))  # may be empty
+
+    write summary with counts of added / merged / unchanged and any warnings
+
+Success criteria
+	•	New sample_list.txt includes all previous entries plus new/merged ones.
+	•	Single-end SRRs appear only in column 2 (R1). Column 3 (R2) is allowed to be empty.
+	•	Re-running produces no changes (idempotent).
+	•	The original sample_list.txt is preserved as incomplete_sample_list_2.txt.
+
+If you want, I can turn this spec into a ~120-line Python script that follows it exactly (no overengineering).
