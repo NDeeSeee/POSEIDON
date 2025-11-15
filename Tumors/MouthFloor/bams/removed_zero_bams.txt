@@ -1,0 +1,3 @@
+SAMN21555491_Aligned.sortedByCoord.out
+SAMN21555492_Aligned.sortedByCoord.out
+SAMN21555511_Aligned.sortedByCoord.out

@@ -19,3 +19,150 @@
 
 LIST OF CANCER'S I'M WORKING WITH:
     TODO: /data/salomonis-archive/FASTQs/NCI-R01/POSEIDON/Tumors/Larynx
+
+
+
+    TODO: /data/salomonis-archive/FASTQs/NCI-R01/POSEIDON/Tumors/Larynx
+    TODO: Redownload archives for the GTEx
+    TODO: Write a valid conda set up for Nathan
+
+    TODO: Launch some fastq-workflow and star-flex with timings for overnight calculations
+
+
+    DONE:
+    1. Salivary
+    2. Larynx
+    3. RenalPelvis
+    4. Oropharyngeal
+    5. Bones_and_Joints
+    6. Esophagus
+    7. Gum+MouthOther
+    8. HRposHER2posBreast
+    9. Mesothelioma
+    10. AnusAnorectum
+    11*. Gum+MouthOther (214/244, rerun with updated sample_list)
+    12*. Gallbladder (72/108, rerun with DRR)
+    13. MeningiomaBrain+CNS
+    14. Pancreas
+
+    DROP:
+    1. Vagina
+    2. SmallCellLung
+    3. Small_Intestine
+    4. Tongue
+
+for tissue in Tumors/*; do
+  [ -d "$tissue" ] || continue
+
+  fastq_count=$(fd -H -I -t f -e fastq.gz . "$tissue" | wc -l)
+  sra_count=$(fd   -H -I -t f -e sra      . "$tissue" | wc -l)
+
+  # count in bams/ and bams1/ if they exist
+  bam_count=$(
+    { fd -H -I -t f -e bam . "$tissue/bams"  2>/dev/null
+      fd -H -I -t f -e bam . "$tissue/bams1" 2>/dev/null; } | wc -l
+  )
+
+  printf "%-25s  FASTQ: %5d   BAM: %5d   SRA: %5d\n" \
+    "$(basename "$tissue")" "$fastq_count" "$bam_count" "$sra_count"
+done
+
+echo "-----------------------------------------"
+echo "TOTAL FASTQ: $(fd -H -I -t f -e fastq.gz . Tumors | wc -l)"
+echo "TOTAL BAM:   $(fd -H -I -t f -e bam      . Tumors | wc -l)"
+echo "TOTAL SRA:   $(fd -H -I -t f -e sra      . Tumors | wc -l)"
+
+AnusAnorectum              FASTQ:   568   BAM:    53   SRA:   114
+Bones+Joints               FASTQ:    50   BAM:    20   SRA:     7
+Esophagus                  FASTQ:    44   BAM:    19   SRA:     0
+Gallbladder                FASTQ:   148   BAM:    17   SRA:    69
+Gum+MouthOther             FASTQ:   105   BAM:    28   SRA:   181
+HRposHER2posBreast         FASTQ:    16   BAM:     8   SRA:     0
+Larynx                     FASTQ:    34   BAM:    15   SRA:     0
+LungLargeCell              FASTQ:    24   BAM:     3   SRA:     5
+MeningiomaBrain+CNS        FASTQ:   540   BAM:   177   SRA:    91
+Mesothelioma               FASTQ:   182   BAM:    16   SRA:    60
+MouthFloor                 FASTQ:    94   BAM:    22   SRA:     0
+Oropharyngeal              FASTQ:    58   BAM:    27   SRA:     0
+Pancreas                   FASTQ:   586   BAM:   113   SRA:   168
+RenalPelvis                FASTQ:    50   BAM:    46   SRA:     0
+Salivary                   FASTQ:   433   BAM:   145   SRA:     7
+-----------------------------------------
+TOTAL FASTQ: 2932
+TOTAL BAM:   730
+TOTAL SRA:   703
+
+fd -H -I -t f -g 'sample_list.with_status.txt' Tumors \
+  -x bash -c '
+    tissue=$(basename "$(dirname "$1")")
+    case "$tissue" in SmallCellLung|Tongue|TestCancer|Vagina|SmallIntestine) exit 0;; esac
+
+    # One pass over the file: count DONE, IN_PROGRESS, and total (NR)
+    read d p t < <(awk '\''/BAM_DONE/{d++} /BAM_IN_PROGRESS/{p++} END{printf "%d %d %d", d+0, p+0, NR+0}'\'' "$1")
+
+    # Print tab-separated to sort safely
+    LC_ALL=C awk -v tissue="$tissue" -v d="$d" -v p="$p" -v t="$t" \
+      '\''BEGIN{
+          pd=(t?100*d/t:0); pp=(t?100*p/t:0);
+          printf "%s\t%d\t%d\t%d\t%.3f\t%.3f\n", tissue, d, p, t, pd, pp
+        }'\''
+  ' _ {} \
+| sort -k5,5nr \
+| awk -F'\t' '{printf "%-25s  BAM_DONE: %4d  IN_PROG: %4d  TOTAL: %4d  (%5.1f%% done, %5.1f%% in-progress)\n",$1,$2,$3,$4,$5,$6}'
+
+
+Esophagus                  BAM_DONE:   19  IN_PROG:    0  TOTAL:   19  (100.0% done,   0.0% in-progress)
+HRposHER2posBreast         BAM_DONE:    8  IN_PROG:    0  TOTAL:    8  (100.0% done,   0.0% in-progress)
+RenalPelvis                BAM_DONE:   46  IN_PROG:    0  TOTAL:   46  (100.0% done,   0.0% in-progress)
+Oropharyngeal              BAM_DONE:   27  IN_PROG:    1  TOTAL:   30  ( 90.0% done,   3.3% in-progress)
+Larynx                     BAM_DONE:   15  IN_PROG:    2  TOTAL:   17  ( 88.2% done,  11.8% in-progress)
+MouthFloor                 BAM_DONE:   22  IN_PROG:    1  TOTAL:   25  ( 88.0% done,   4.0% in-progress)
+Salivary                   BAM_DONE:  123  IN_PROG:    0  TOTAL:  147  ( 83.7% done,   0.0% in-progress)
+Bones+Joints               BAM_DONE:   20  IN_PROG:    0  TOTAL:   27  ( 74.1% done,   0.0% in-progress)
+MeningiomaBrain+CNS        BAM_DONE:  134  IN_PROG:   18  TOTAL:  273  ( 49.1% done,   6.6% in-progress)
+Pancreas                   BAM_DONE:  110  IN_PROG:   14  TOTAL:  293  ( 37.5% done,   4.8% in-progress)
+Gallbladder                BAM_DONE:   17  IN_PROG:    0  TOTAL:   47  ( 36.2% done,   0.0% in-progress)
+LungLargeCell              BAM_DONE:    3  IN_PROG:    0  TOTAL:   12  ( 25.0% done,   0.0% in-progress)
+AnusAnorectum              BAM_DONE:   53  IN_PROG:    0  TOTAL:  285  ( 18.6% done,   0.0% in-progress)
+Mesothelioma               BAM_DONE:   16  IN_PROG:    2  TOTAL:   91  ( 17.6% done,   2.2% in-progress)
+Gum+MouthOther             BAM_DONE:   28  IN_PROG:    0  TOTAL:  230  ( 12.2% done,   0.0% in-progress)
+
+❯ bjobs -a | rg -c RUN
+125
+❯ bjobs -a | rg -c PEND
+768
+
+/tmp/reset_failed_star_samples.sh /data/salomonis-archive/FASTQs/NCI-R01/POSEIDON/Tumors/RenalPelvis
+Working directory: /data/salomonis-archive/FASTQs/NCI-R01/POSEIDON/Tumors/RenalPelvis
+
+=== Removing STAR output files ===
+✓ Removed STAR output files
+
+=== Removing .vdbcache files ===
+✓ Removed .vdbcache files
+
+=== Removing SRR subdirectories ===
+✓ Removed SRR/ERR/DRR subdirectories
+
+=== Resetting status for failed samples ===
+✓ Reset 13 sample statuses
+  - BAM_ERROR: 8
+  - BAM_IN_PROGRESS: 5
+  - Backup saved: sample_list.with_status.txt.backup
+
+=== Cleanup complete! ===
+Next steps:
+  1. Re-run FASTQ workflow to regenerate corrupted files:
+     fastq-workflow /data/salomonis-archive/FASTQs/NCI-R01/POSEIDON/Tumors/RenalPelvis
+  2. Then run STAR alignment:
+     bash .../star_flex_2pass.sh sample_list.with_status.txt
+
+Common issues of SRA:
+1. Network I/O - fix rerun
+
+Common issues of FASTQ:
+1.
+
+Common issues of BAM:
+1. Corrupted fastq files - fix run reset_failed_star_samples.sh script
+2. ?

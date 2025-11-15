@@ -1,0 +1,15 @@
+SAMN04349090_Aligned.sortedByCoord.out
+SAMN12994622_Aligned.sortedByCoord.out
+SAMN12994624_Aligned.sortedByCoord.out
+SAMN20223883_Aligned.sortedByCoord.out
+SAMN43304816_Aligned.sortedByCoord.out
+SAMN43304817_Aligned.sortedByCoord.out
+SAMN43304818_Aligned.sortedByCoord.out
+SAMN43304821_Aligned.sortedByCoord.out
+SAMN43304824_Aligned.sortedByCoord.out
+SAMN43304832_Aligned.sortedByCoord.out
+SAMN43304834_Aligned.sortedByCoord.out
+SAMN43304839_Aligned.sortedByCoord.out
+SAMN44842444_Aligned.sortedByCoord.out
+SAMN44842447_Aligned.sortedByCoord.out
+SAMN44842464_Aligned.sortedByCoord.out
